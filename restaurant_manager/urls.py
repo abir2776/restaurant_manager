@@ -52,4 +52,5 @@ urlpatterns = [
     ),
     path("admin/", admin.site.urls),
     path("api/v1/auth/", include("core.rest.urls")),
+    path("api/v1/menu/", include("restaurant_menu.rest.urls")),
 ]
