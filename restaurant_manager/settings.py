@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "order",
     "django_filters",
     "rest_framework",
+    "payment",
 ]
 
 MIDDLEWARE = [
