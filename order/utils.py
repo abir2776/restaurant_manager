@@ -2,7 +2,8 @@ from .models import Order,OrderItem
 
 def create_order_from_cart(cart_items,user):
     order = Order.objects.create(
-        user=user
+        user=user,
+        total_amount=0
     )
 
     total = 0
