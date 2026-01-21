@@ -3,14 +3,14 @@ from rest_framework import serializers
 from order.models import CartItem, Product
 
 
-class ProductSerializer(serializers.ModelSerializer):
+class CartProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = ["id", "title", "price", "description", "is_popular"]
 
 
 class CartItemSerializer(serializers.ModelSerializer):
-    product = ProductSerializer(read_only=True)
+    product = CartProductSerializer(read_only=True)
     product_id = serializers.PrimaryKeyRelatedField(
         queryset=Product.objects.all(), source="product", write_only=True
     )

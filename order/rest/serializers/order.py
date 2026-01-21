@@ -3,11 +3,11 @@
 from rest_framework import serializers
 
 from order.models import CartItem, Order, OrderItem
-from order.rest.serializers.cart import ProductSerializer
+from order.rest.serializers.cart import CartProductSerializer
 
 
 class OrderItemSerializer(serializers.ModelSerializer):
-    product = ProductSerializer(read_only=True)
+    product = CartProductSerializer(read_only=True)
     total_price = serializers.DecimalField(
         max_digits=10, decimal_places=2, read_only=True
     )
