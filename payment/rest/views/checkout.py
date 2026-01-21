@@ -7,6 +7,7 @@ from rest_framework.views import APIView
 from order.models import CartItem
 from order.utils import create_order_from_cart
 from payment.models import Payment
+import decimal
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
@@ -31,7 +32,7 @@ class CheckoutAPIView(APIView):
                     "price_data": {
                         "currency": "usd",
                         "product_data": {"name": item.product.title},
-                        "unit_amount": item.product.price,
+                        "unit_amount": int(item.product.price*decimal.Decimal(100)),
                     },
                     "quantity": item.quantity,
                 }
