@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     "restaurant_menu",
     "order",
     "django_filters",
-    "rest_framework"
+    "rest_framework",
 ]
 
 MIDDLEWARE = [
@@ -157,3 +157,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 ALLOWED_HOSTS = ["*"]
 CORS_ALLOW_ALL_ORIGINS = True
 APPEND_SLASH = False
+
+STRIPE_SECRET_KEY = os.getenv("STRIPE_SECRET_KEY")
+STRIPE_PUBLISHABLE_KEY = os.getenv("STRIPE_PUBLISHABLE_KEY")
+STRIPE_WEBHOOK_SECRET = os.getenv("STRIPE_WEBHOOK_SECRET")

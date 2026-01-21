@@ -56,5 +56,6 @@ urlpatterns = [
     path("api/v1/auth/", include("core.rest.urls")),
     path("api/v1/menu/", include("restaurant_menu.rest.urls")),
     path("api/v1/orders/", include("order.rest.urls")),
+    path("api/v1/payment/", include("payment.rest.urls")),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
