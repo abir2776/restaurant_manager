@@ -2,15 +2,11 @@ from rest_framework import serializers
 
 from order.models import CartItem, Product
 
-
-class CartProductSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Product
-        fields = "__all__"
+from restaurant_menu.rest.serializers.products import ProductSerializer
 
 
 class CartItemSerializer(serializers.ModelSerializer):
-    product = CartProductSerializer(read_only=True)
+    product = ProductSerializer(read_only=True)
     product_id = serializers.PrimaryKeyRelatedField(
         queryset=Product.objects.all(), source="product", write_only=True
     )
