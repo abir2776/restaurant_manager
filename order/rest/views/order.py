@@ -1,5 +1,5 @@
 from rest_framework import generics
-from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.permissions import IsAuthenticated
 
 from order.models import Order
 from order.rest.serializers.order import OrderSerializer
@@ -8,11 +8,6 @@ from order.rest.serializers.order import OrderSerializer
 class OrderListCreateView(generics.ListCreateAPIView):
     serializer_class = OrderSerializer
     permission_classes = [IsAuthenticated]
-
-    def get_permissions(self):
-        if self.request.method == "POST":
-            return [AllowAny()]
-        return [IsAuthenticated()]
 
     def get_queryset(self):
         return Order.objects.filter(user=self.request.user).prefetch_related(

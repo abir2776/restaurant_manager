@@ -3,6 +3,7 @@
 from rest_framework import serializers
 
 from order.models import CartItem, Order, OrderItem
+from order.rest.serializers.address import AddressSerializer
 from restaurant_menu.rest.serializers.products import ProductSerializer
 
 
@@ -19,9 +20,7 @@ class OrderItemSerializer(serializers.ModelSerializer):
 
 class OrderSerializer(serializers.ModelSerializer):
     items = OrderItemSerializer(many=True, read_only=True)
-    cart_item_ids = serializers.ListField(
-        child=serializers.IntegerField(), write_only=True, required=False
-    )
+    address = AddressSerializer(read_only=True)
 
     class Meta:
         model = Order
@@ -30,22 +29,24 @@ class OrderSerializer(serializers.ModelSerializer):
             "user",
             "status",
             "total_amount",
-            "shipping_address",
             "items",
             "created_at",
             "updated_at",
             "cart_item_ids",
+            "address",
+            "payment_type",
         ]
-        read_only_fields = ["user", "total_amount", "created_at", "updated_at"]
+        read_only_fields = [
+            "user",
+            "total_amount",
+            "created_at",
+            "updated_at",
+            "address",
+        ]
 
     def create(self, validated_data):
         user = self.context["request"].user
-        if user:
-            cart_items = CartItem.objects.filter(user=user)
-
-        else:
-            cart_item_ids = validated_data.pop("cart_item_ids")
-            cart_items = CartItem.objects.filter(id__in=cart_item_ids)
+        cart_items = CartItem.objects.filter(user=user)
 
         if not cart_items.exists():
             raise serializers.ValidationError("Cart is empty")

@@ -1,9 +1,9 @@
-from .models import Order,OrderItem
+from .models import Order, OrderItem
 
-def create_order_from_cart(cart_items,user):
+
+def create_order_from_cart(cart_items, user, address_id, payment_type):
     order = Order.objects.create(
-        user=user,
-        total_amount=0
+        user=user, address_id=address_id, payment_type=payment_type, total_amount=0
     )
 
     total = 0
@@ -12,10 +12,11 @@ def create_order_from_cart(cart_items,user):
             order=order,
             product=item.product,
             quantity=item.quantity,
-            price = item.total_price
+            price=item.total_price,
         )
         total += item.total_price
 
     order.total_amount = total
     order.save()
+
     return order
