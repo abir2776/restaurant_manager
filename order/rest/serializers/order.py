@@ -32,7 +32,6 @@ class OrderSerializer(serializers.ModelSerializer):
             "items",
             "created_at",
             "updated_at",
-            "cart_item_ids",
             "address",
             "payment_type",
         ]
