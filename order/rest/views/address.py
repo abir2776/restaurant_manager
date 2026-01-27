@@ -15,6 +15,7 @@ class AddressListCreateAPIView(ListCreateAPIView):
 
 class AddressDetailsAPIView(RetrieveUpdateDestroyAPIView):
     serializer_class = AddressSerializer
+    lookup_field = "id"
 
     def get_queryset(self):
         user = self.request.user
