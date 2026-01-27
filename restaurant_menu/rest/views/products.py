@@ -3,6 +3,7 @@ from rest_framework import filters
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
 
+from restaurant_menu.filters import ProductFilter
 from restaurant_menu.models import Product
 from restaurant_menu.permissions import IsAdmin
 from restaurant_menu.rest.serializers.products import ProductSerializer
@@ -10,15 +11,20 @@ from restaurant_menu.rest.serializers.products import ProductSerializer
 
 class ProductListCreateAPIView(ListCreateAPIView):
     serializer_class = ProductSerializer
-    queryset = Product.objects.filter()
-    filter_backends = [DjangoFilterBackend]
-    filterset_fields = ["category__id", "tags__id", "is_popular"]
-    filter_backends = [filters.SearchFilter]
+    queryset = Product.objects.all()
+    filter_backends = [
+        DjangoFilterBackend,
+        filters.SearchFilter,
+        filters.OrderingFilter,
+    ]
+    filterset_class = ProductFilter
     search_fields = [
         "title",
         "category__title",
         "tags__title",
     ]
+    ordering_fields = ["created_at", "price"]
+    ordering = ["-created_at"]
 
     def get_permissions(self):
         if self.request.method == "POST":
