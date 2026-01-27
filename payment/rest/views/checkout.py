@@ -60,8 +60,8 @@ class CheckoutAPIView(APIView):
                 }
                 for item in cart_items
             ],
-            success_url="http://localhost:3000/payment-success",
-            cancel_url="http://localhost:3000/cart",
+            success_url=settings.STRIPE_SUCCESS_URL,
+            cancel_url=settings.STRIPE_CANCEL_URL,
         )
 
         Payment.objects.create(
