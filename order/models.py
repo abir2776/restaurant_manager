@@ -47,6 +47,7 @@ class Order(models.Model):
         Address, on_delete=models.SET_NULL, null=True, blank=True
     )
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="pending")
+    cancelled_reason = models.TextField(null=True, blank=True)
     payment_type = models.CharField(
         max_length=20, choices=PAYMENT_TYPE, default="online"
     )

@@ -2,6 +2,7 @@ from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIV
 from rest_framework.permissions import AllowAny, IsAuthenticated
 
 from restaurant_menu.models import Image
+from restaurant_menu.permissions import IsAdmin
 from restaurant_menu.rest.serializers.images import ImageSerializer
 
 
@@ -11,7 +12,7 @@ class ImageListCreateView(ListCreateAPIView):
 
     def get_permissions(self):
         if self.request.method == "POST":
-            return [IsAuthenticated()]
+            return [IsAuthenticated(), IsAdmin()]
         return [AllowAny()]
 
 
@@ -22,5 +23,5 @@ class ImageDetailsView(RetrieveUpdateDestroyAPIView):
 
     def get_permissions(self):
         if self.request.method in ["PUT", "PATCH", "DELETE"]:
-            return [IsAuthenticated()]
+            return [IsAuthenticated(), IsAdmin()]
         return [AllowAny()]
