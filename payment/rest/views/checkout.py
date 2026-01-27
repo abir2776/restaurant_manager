@@ -69,7 +69,7 @@ class CheckoutAPIView(APIView):
             order=order,
             stripe_session_id=session.id,
             amount=order.total_amount,
-            payment_type=payment_type,
+            currency="usd",
         )
 
         return Response({"checkout_url": session.url})
