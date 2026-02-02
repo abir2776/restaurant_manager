@@ -44,3 +44,9 @@ class Product(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class OpeningHours(models.Model):
+    day = models.CharField()
+    start_time = models.TimeField()
+    end_time = models.TimeField()
