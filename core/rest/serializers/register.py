@@ -7,12 +7,12 @@ from core.models import User
 logger = logging.getLogger(__name__)
 
 
-class PublicUserRegistrationSerializer(serializers.Serializer):
-    email = serializers.EmailField()
+class PublicUserRegistrationSerializer(serializers.ModelSerializer):
     password = serializers.CharField()
-    phone = serializers.CharField(min_length=7, max_length=20)
-    first_name = serializers.CharField(min_length=2, max_length=50)
-    last_name = serializers.CharField(min_length=2, max_length=50)
+
+    class Meta:
+        model = User
+        fields = "__all__"
 
     def validate_email(self, data):
         email = data.lower()
