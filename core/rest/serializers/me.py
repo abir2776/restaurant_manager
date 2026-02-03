@@ -23,7 +23,8 @@ class MeSerializer(serializers.ModelSerializer):
         return data
 
     def update(self, instance, validated_data):
-        password = validated_data.pop("password")
-        instance.set_password(password)
-        instance.save()
+        password = validated_data.pop("password",None)
+        if password:
+            instance.set_password(password)
+            instance.save()
         return super().update(instance, validated_data)
