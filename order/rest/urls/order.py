@@ -6,5 +6,5 @@ from order.rest.views.order import OrderListCreateView, OrderRetrieveUpdateDestr
 
 urlpatterns = [
     path("", OrderListCreateView.as_view(), name="order-list-create"),
-    path("<int:pk>/", OrderRetrieveUpdateDestroyView.as_view(), name="order-detail"),
+    path("<int:id>/", OrderRetrieveUpdateDestroyView.as_view(), name="order-detail"),
 ]

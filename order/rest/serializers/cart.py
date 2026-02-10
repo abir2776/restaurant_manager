@@ -31,17 +31,23 @@ class CartItemSerializer(serializers.ModelSerializer):
         read_only_fields = ["user", "created_at", "updated_at"]
 
     def create(self, validated_data):
-        user = self.context["request"].user
+        request = self.context["request"]
+        user = request.user if request.user.is_authenticated else None
+
         product = validated_data["product"]
         quantity = validated_data.get("quantity", 1)
-        cart_item, created = CartItem.objects.get_or_create(
-            user=user,
+        if user:
+            cart_item, created = CartItem.objects.get_or_create(
+                user=user,
+                product=product,
+                defaults={"quantity": quantity},
+            )
+            if not created:
+                cart_item.quantity += quantity
+                cart_item.save()
+            return cart_item
+        
+        return CartItem.objects.create(
             product=product,
-            defaults={"quantity": quantity},
+            quantity=quantity
         )
-
-        if not created:
-            cart_item.quantity += quantity
-            cart_item.save()
-
-        return cart_item

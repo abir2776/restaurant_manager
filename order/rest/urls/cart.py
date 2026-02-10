@@ -10,6 +10,6 @@ from order.rest.views.cart import (
 urlpatterns = [
     path("", CartItemListCreateView.as_view(), name="cart-list-create"),
     path(
-        "<int:pk>", CartItemRetrieveUpdateDestroyView.as_view(), name="cart-detail"
+        "<int:id>", CartItemRetrieveUpdateDestroyView.as_view(), name="cart-detail"
     ),
 ]

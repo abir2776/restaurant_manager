@@ -10,6 +10,8 @@ class AddressSerializer(serializers.ModelSerializer):
         read_only_fields = ["user"]
 
     def create(self, validated_data):
-        user = self.context["request"].user
+        request = self.context["request"]
+        user = request.user if request.user.is_authenticated else None
+
         validated_data["user"] = user
         return super().create(validated_data)
