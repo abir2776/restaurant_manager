@@ -13,7 +13,7 @@ class Payment(models.Model):
     )
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
-    GuestUser = models.ForeignKey(
+    guest_user = models.ForeignKey(
         GuestUser, on_delete=models.CASCADE, null=True, blank=True
     )
     order = models.OneToOneField(Order, on_delete=models.CASCADE)
