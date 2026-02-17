@@ -26,7 +26,7 @@ def stripe_webhook(request):
         session = event["data"]["object"]
         payment = Payment.objects.get(stripe_session_id=session["id"])
         payment.status = "SUCCESS"
-        CartItem.objects.filter(user=payment.user).delete()
+        CartItem.objects.filter(id__in=payment.cart_ids).delete()
 
     if event["type"] == "payment_intent.payment_failed":
         intent = event["data"]["object"]

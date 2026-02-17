@@ -1,9 +1,13 @@
 from .models import Order, OrderItem
 
 
-def create_order_from_cart(cart_items, user, address_id, payment_type):
+def create_order_from_cart(cart_items, user, guest_user, address_id, payment_type):
     order = Order.objects.create(
-        user=user, address_id=address_id, payment_type=payment_type, total_amount=0
+        user=user,
+        guest_user=guest_user,
+        address_id=address_id,
+        payment_type=payment_type,
+        total_amount=0,
     )
 
     total = 0

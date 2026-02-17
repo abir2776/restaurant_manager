@@ -2,6 +2,7 @@
 
 from rest_framework import serializers
 
+from core.models import GuestUser
 from order.models import CartItem, Order, OrderItem
 from order.rest.serializers.address import AddressSerializer
 from restaurant_menu.rest.serializers.products import ProductSerializer
@@ -26,6 +27,10 @@ class OrderSerializer(serializers.ModelSerializer):
         write_only=True,
         required=False,
     )
+    first_name = serializers.CharField(write_only=True, required=False)
+    last_name = serializers.CharField(write_only=True, required=False)
+    email = serializers.CharField(write_only=True, required=False)
+    phone = serializers.CharField(write_only=True, required=False)
 
     class Meta:
         model = Order
@@ -40,6 +45,10 @@ class OrderSerializer(serializers.ModelSerializer):
             "address",
             "payment_type",
             "cart_item_ids",
+            "first_name",
+            "last_name",
+            "email",
+            "phone",
         ]
         read_only_fields = [
             "user",
@@ -52,6 +61,23 @@ class OrderSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         request = self.context["request"]
         user = request.user if request.user.is_authenticated else None
+        guest_user = None
+        if user is None:
+            first_name = validated_data.pop("first_name", None)
+            last_name = validated_data.pop("last_name", None)
+            email = validated_data.pop("email", None)
+            phone = validated_data.pop("phone", None)
+            if (
+                first_name is None
+                or last_name is None
+                or email is None
+                or phone is None
+            ):
+                raise serializers.ValidationError("User information is not provided!")
+            guest_user = GuestUser.objects.create(
+                first_name=first_name, last_name=last_name, email=email, phone=phone
+            )
+
         cart_item_ids = validated_data.pop("cart_item_ids", None)
         if user:
             cart_items = CartItem.objects.filter(user=user)
@@ -68,7 +94,10 @@ class OrderSerializer(serializers.ModelSerializer):
         total_amount = sum(item.total_price for item in cart_items)
 
         order = Order.objects.create(
-            user=user, total_amount=total_amount, **validated_data
+            user=user,
+            guest_user=guest_user,
+            total_amount=total_amount,
+            **validated_data,
         )
         for cart_item in cart_items:
             OrderItem.objects.create(

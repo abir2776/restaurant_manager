@@ -1,6 +1,6 @@
 from django.db import models
 
-from core.models import User
+from core.models import GuestUser, User
 from restaurant_menu.models import Product
 
 
@@ -44,7 +44,12 @@ class Order(models.Model):
     )
     PAYMENT_TYPE = (("cod", "COD"), ("online", "Online"))
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="orders")
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="orders", null=True, blank=True
+    )
+    guest_name = models.ForeignKey(
+        GuestUser, on_delete=models.CASCADE, null=True, blank=True
+    )
     address = models.ForeignKey(
         Address, on_delete=models.SET_NULL, null=True, blank=True
     )

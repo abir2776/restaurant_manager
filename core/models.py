@@ -57,3 +57,10 @@ class User(AbstractUser):
     def get_name(self):
         name = " ".join([self.first_name, self.last_name])
         return name.strip()
+
+
+class GuestUser(models.Model):
+    first_name = models.CharField(max_length=255)
+    last_name = models.CharField(max_length=255)
+    email = models.CharField(max_length=255)
+    phone = models.CharField(max_length=255)
