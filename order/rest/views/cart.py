@@ -28,5 +28,4 @@ class CartItemRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
         return [AllowAny()]
 
     def get_queryset(self):
-        user = self.request.user
-        return CartItem.objects.filter(user=user)
+        return CartItem.objects.filter()
