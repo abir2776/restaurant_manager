@@ -1,22 +1,28 @@
-from rest_framework.generics import ListAPIView, RetrieveAPIView
+from rest_framework.generics import (
+    ListAPIView,
+    ListCreateAPIView,
+    RetrieveAPIView,
+    RetrieveUpdateDestroyAPIView,
+)
 
+from core.choices import UserRole
 from core.models import User
 from core.rest.serializers.users import AdminUserSerializer
 from order.models import Order
 from order.rest.serializers.order import OrderSerializer
-from restaurant_menu.permissions import IsAdmin
+from restaurant_menu.permissions import IsAdmin, IsSuperUser
 
 
-class AdminUserListView(ListAPIView):
+class AdminUserListView(ListCreateAPIView):
     serializer_class = AdminUserSerializer
-    permission_classes = [IsAdmin]
-    queryset = User.objects.filter()
+    permission_classes = [IsSuperUser]
+    queryset = User.objects.filter(role=UserRole.ADMIN)
 
 
-class AdminUserDetailsView(RetrieveAPIView):
+class AdminUserDetailsView(RetrieveUpdateDestroyAPIView):
     serializer_class = AdminUserSerializer
-    permission_classes = [IsAdmin]
-    queryset = User.objects.filter()
+    permission_classes = [IsSuperUser]
+    queryset = User.objects.filter(role=UserRole.ADMIN)
     lookup_field = "pk"
 
 
