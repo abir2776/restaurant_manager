@@ -35,8 +35,8 @@ class ProductSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         category_ids = validated_data.pop("category_ids", [])
-        image_ids = validated_data.pop("image_ids", [])
-        tag_ids = validated_data.pop("tag_ids", [])
+        image_ids = validated_data.pop("images_ids", [])
+        tag_ids = validated_data.pop("tags_ids", [])
 
         product = super().create(validated_data)
 
