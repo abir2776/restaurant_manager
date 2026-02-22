@@ -4,5 +4,5 @@ from restaurant_menu.rest.views.tags import TagDetailsAPIView, TagListCreateAPIV
 
 urlpatterns = [
     path("", TagListCreateAPIView.as_view(), name="tag-list"),
-    path("/<int:id>", TagDetailsAPIView.as_view(), name="tag-details"),
+    path("<int:id>", TagDetailsAPIView.as_view(), name="tag-details"),
 ]
