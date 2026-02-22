@@ -16,17 +16,14 @@ class ProductSerializer(serializers.ModelSerializer):
     category_ids = serializers.ListField(
         child=serializers.IntegerField(),
         write_only=True,
-        required=False
     )
     images_ids = serializers.ListField(
         child=serializers.IntegerField(),
         write_only=True,
-        required=False
     )
     tags_ids = serializers.ListField(
         child=serializers.IntegerField(),
         write_only=True,
-        required=False
     )
 
     class Meta:
