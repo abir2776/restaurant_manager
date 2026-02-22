@@ -34,6 +34,7 @@ class AdminOrderSerializer(serializers.ModelSerializer):
             "updated_at",
             "address",
             "payment_type",
+            "cancelled_reason"
         ]
         read_only_fields = [
             "id",
