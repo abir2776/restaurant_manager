@@ -18,6 +18,7 @@ class TagListCreateAPIView(ListCreateAPIView):
 class TagDetailsAPIView(RetrieveUpdateDestroyAPIView):
     serializer_class = TagSerializer
     queryset = Tag.objects.filter()
+    lookup_field = "id"
 
     def get_permissions(self):
         if self.request.method in ["PUT", "PATCH", "DELETE"]:
