@@ -50,8 +50,8 @@ class ProductSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         category_ids = validated_data.pop("category_ids", None)
-        image_ids = validated_data.pop("image_ids", None)
-        tag_ids = validated_data.pop("tag_ids", None)
+        image_ids = validated_data.pop("images_ids", None)
+        tag_ids = validated_data.pop("tags_ids", None)
 
         instance = super().update(instance, validated_data)
 
