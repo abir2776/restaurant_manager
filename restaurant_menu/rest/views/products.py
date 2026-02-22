@@ -6,7 +6,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from restaurant_menu.filters import ProductFilter
 from restaurant_menu.models import Product
 from restaurant_menu.permissions import IsAdmin
-from restaurant_menu.rest.serializers.products import ProductSerializer
+from restaurant_menu.rest.serializers.products import ProductSerializer,ProductDetailsSerializer
 
 
 class ProductListCreateAPIView(ListCreateAPIView):
@@ -33,7 +33,7 @@ class ProductListCreateAPIView(ListCreateAPIView):
 
 
 class ProductDetailsAPIView(RetrieveUpdateDestroyAPIView):
-    serializer_class = ProductSerializer
+    serializer_class = ProductDetailsSerializer
     queryset = Product.objects.filter()
 
     lookup_field = "id"
