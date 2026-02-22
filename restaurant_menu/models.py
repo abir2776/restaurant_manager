@@ -30,6 +30,7 @@ class Image(models.Model):
 
 
 class Product(models.Model):
+    STATUS_CHOICES = [("active", "Active"), ("inactive", "Inactive")]
     title = models.CharField(max_length=255)
     category = models.ManyToManyField(Category, null=True, blank=True)
     images = models.ManyToManyField(
@@ -41,6 +42,7 @@ class Product(models.Model):
     is_popular = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="active")
 
     def __str__(self):
         return self.title
