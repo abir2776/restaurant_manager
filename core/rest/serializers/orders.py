@@ -4,6 +4,7 @@ from rest_framework import serializers
 
 from order.models import Order, OrderItem
 from order.rest.serializers.address import AddressSerializer
+from payment.models import Payment
 from restaurant_menu.rest.serializers.products import ProductSerializer
 
 
@@ -21,6 +22,7 @@ class AdminOrderItemSerializer(serializers.ModelSerializer):
 class AdminOrderSerializer(serializers.ModelSerializer):
     items = AdminOrderItemSerializer(many=True, read_only=True)
     address = AddressSerializer(read_only=True)
+    transaction_id = serializers.SerializerMethodField()
 
     class Meta:
         model = Order
@@ -34,7 +36,8 @@ class AdminOrderSerializer(serializers.ModelSerializer):
             "updated_at",
             "address",
             "payment_type",
-            "cancelled_reason"
+            "cancelled_reason",
+            "transaction_id"
         ]
         read_only_fields = [
             "id",
@@ -46,6 +49,12 @@ class AdminOrderSerializer(serializers.ModelSerializer):
             "address",
             "payment_type",
         ]
+
+    def get_transaction_id(self, obj):
+        transaction = Payment.objects.filter(order=obj).order_by("-created_at").first()
+        if transaction:
+            return transaction.id
+        return None
 
     def validate(self, attrs):
         status = attrs.get("status")
