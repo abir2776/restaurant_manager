@@ -8,7 +8,7 @@ from core.rest.views.transactions import (
 urlpatterns = [
     path("", AdminTransactionListAPIView.as_view(), name="admin-transaction-list"),
     path(
-        "<int:pk>",
+        "<int:id>",
         AdminTransactionDetailsAPIView.as_view(),
         name="admin-transaction-details",
     ),
