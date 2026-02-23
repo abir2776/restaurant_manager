@@ -11,6 +11,8 @@ from rest_framework_simplejwt.views import (
     TokenVerifyView,
 )
 
+from core.rest.views.dashboard import DashboardAPIView
+
 schema_view = get_schema_view(
     openapi.Info(
         title="Restaurant_management API",
@@ -59,5 +61,6 @@ urlpatterns = [
     path("api/v1/payment/", include("payment.rest.urls")),
     path("api/v1/admin/", include("core.rest.urls.admin")),
     path("api/v1/me/", include("core.rest.urls.me")),
+    path("api/v1/dashboard", DashboardAPIView.as_view(), name="dashboard"),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
