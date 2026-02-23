@@ -13,7 +13,7 @@ class OrderListCreateView(generics.ListCreateAPIView):
         filters.SearchFilter,
         filters.OrderingFilter,
     ]
-    search_fields = ["id", "payment_set__id", "user__first_name", "user__last_name"]
+    search_fields = ["id", "payment_id", "user__first_name", "user__last_name"]
     filterset_fields = ["status"]
 
     def get_permissions(self):
