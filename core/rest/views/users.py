@@ -16,13 +16,17 @@ from restaurant_menu.permissions import IsAdmin, IsSuperUser
 class AdminUserListView(ListCreateAPIView):
     serializer_class = AdminUserSerializer
     permission_classes = [IsSuperUser]
-    queryset = User.objects.filter(role=UserRole.ADMIN)
+    def get_queryset(self):
+        queryset = User.objects.filter(role=UserRole.ADMIN)
+        queryset = list(queryset)
+        queryset.append(self.request.user)
+        return queryset
 
 
 class AdminUserDetailsView(RetrieveUpdateDestroyAPIView):
     serializer_class = AdminUserSerializer
     permission_classes = [IsSuperUser]
-    queryset = User.objects.filter(role=UserRole.ADMIN)
+    queryset = User.objects.filter()
     lookup_field = "pk"
 
 

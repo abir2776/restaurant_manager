@@ -4,4 +4,5 @@ urlpatterns = [
     path("users/", include("core.rest.urls.users")),
     path("orders/", include("core.rest.urls.orders")),
     path("transactions/", include("core.rest.urls.transactions")),
+    path("token/",include("core.rest.urls.token"))
 ]
